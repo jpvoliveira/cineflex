@@ -1,7 +1,9 @@
-import './style.css'
+import "./style.css";
 
-export default function Header(){
-    return(
-        <div className='header'>CINEFLIX</div>
-    )
+export default function Header() {
+  return (
+    <div className="header">
+      <p>CINEFLIX</p>
+    </div>
+  );
 }

@@ -1,0 +1,37 @@
+.txt {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0.04em;
+  color: #247a6b;
+
+  text-align: center;
+}
+
+.confirmation span {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.04em;
+  color: #293845;
+
+  margin-bottom: 5px;
+}
+
+.confirmation p {
+  font-size: 22px;
+  line-height: 26px;
+  letter-spacing: 0.04em;
+  color: #293845;
+}
+
+.container{
+    padding-left: 29px;
+    margin-bottom: 15px;
+}
+
+.margin-small{
+    margin-top: 80px;
+}

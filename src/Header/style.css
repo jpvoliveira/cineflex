@@ -1,3 +1,16 @@
-.header{
-    background-color: orange;
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 67px;
+
+  background: #c3cfd9;
+}
+
+.header p {
+  font-size: 34px;
+  line-height: 40px;
+
+  color: #e8833a;
 }
