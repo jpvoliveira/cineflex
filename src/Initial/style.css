@@ -35,6 +35,8 @@
 .box-film img {
   width: 129px;
   height: 193px;
+}
 
-  background-color: orange;
+.initial{
+  padding-top: 67px;
 }

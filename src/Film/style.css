@@ -31,7 +31,7 @@
 }
 
 .footer {
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   width: 100%;
 
@@ -65,3 +65,12 @@
 
   background-color: orange;
 }
+
+a{
+  text-decoration: none
+}
+
+.film {
+  margin-bottom: 137px;
+  padding-top: 67px;
+} 

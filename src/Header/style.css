@@ -1,9 +1,11 @@
 .header {
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
 
   height: 67px;
+  width: 100vw;
 
   background: #c3cfd9;
 }

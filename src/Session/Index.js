@@ -1,23 +1,57 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./style.css";
 
 export default function Session() {
-  return (
-    <div className="session">
-      <div className="title mini">Selecione o(s) assento(s)</div>
-      <ul className="box-seat">
-        <li className="seat">01</li>
-      </ul>
-      <BoxSubtitle />
-      <PersonalData />
-      <div className="box-reserve">
-        <Link to="/sucesso">
-          <button className="reserve">Reservar assento(s)</button>
-        </Link>
+  const [infoSeat, setInfoSeat] = useState(undefined);
+  const [available, setAvailable] = useState(false);
+  const { idSession } = useParams();
+
+  useEffect(() => {
+    const promessa = axios.get(
+      `https://mock-api.driven.com.br/api/v4/cineflex/showtimes/${idSession}/seats`
+    );
+    promessa.then((resposta) => {
+      setInfoSeat(resposta.data);
+    });
+  }, []);
+  if (infoSeat === undefined) {
+    return "Loading...";
+  } else {
+    return (
+      <div className="session">
+        <div className="title mini">Selecione o(s) assento(s)</div>
+        <ul className="box-seat">
+          {infoSeat.seats.map((item) => (
+            <li
+              key={item.id}
+              onClick={() => setAvailable(true)}
+              className={available ? "seat selected" : "seat"}
+            >
+              {item.id}
+            </li>
+          ))}
+        </ul>
+        <BoxSubtitle />
+        <PersonalData />
+        <div className="box-reserve">
+          <Link to="/sucesso">
+            <button className="reserve">Reservar assento(s)</button>
+          </Link>
+        </div>
+        <div className="footer">
+          <div className="box-film-footer">
+            <img src={infoSeat.movie.posterURL} alt={infoSeat.movie.title} />
+          </div>
+          <div className="finish">
+            <p>{infoSeat.movie.title}</p>
+            <p>{`${infoSeat.day.weekday} - ${infoSeat.name}`}</p>
+          </div>
+        </div>
       </div>
-      <Footer />
-    </div>
-  );
+    );
+  }
 }
 
 function BoxSubtitle() {
@@ -49,20 +83,6 @@ function PersonalData() {
       <div className="cpf">
         <p>CPF do comprador:</p>
         <input type="text" placeholder="Digite seu CPF..." />
-      </div>
-    </div>
-  );
-}
-
-function Footer() {
-  return (
-    <div className="footer">
-      <div className="box-film-footer">
-        <img src="#" alt="Filme 1" />
-      </div>
-      <div className="finish">
-        <p>Nome filme</p>
-        <p>Dia - Hora</p>
       </div>
     </div>
   );
