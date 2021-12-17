@@ -4,9 +4,13 @@ import axios from "axios";
 import "./style.css";
 
 export default function Session() {
+  const [name, setName] = useState("");
+  const [cpf, setCpf] = useState("");
   const [infoSeat, setInfoSeat] = useState(undefined);
   const [available, setAvailable] = useState(false);
   const { idSession } = useParams();
+  let finish = [{ ids: [], name: "", cpf: "" }];
+  const [select, setSelect] = useState([]);
 
   useEffect(() => {
     const promessa = axios.get(
@@ -16,6 +20,20 @@ export default function Session() {
       setInfoSeat(resposta.data);
     });
   }, []);
+
+  function reserveSeat(item) {
+    setAvailable(true);
+    const newArray = [...select, item];
+    setSelect(newArray);
+  }
+
+  function sendData() {
+    finish.ids = select;
+    finish.name = name;
+    finish.cpf = cpf;
+    console.log(finish);
+  }
+
   if (infoSeat === undefined) {
     return "Loading...";
   } else {
@@ -25,30 +43,49 @@ export default function Session() {
         <ul className="box-seat">
           {infoSeat.seats.map((item) => (
             <li
-              key={item.id}
-              onClick={() => setAvailable(true)}
-              className={available ? "seat selected" : "seat"}
+              key={item.name}
+              onClick={() => reserveSeat(item.name)}
+              className={
+                item.isAvailable
+                  ? available
+                    ? "seat selected"
+                    : "seat"
+                  : "seat  unavailable"
+              }
             >
-              {item.id}
+              {item.name}
             </li>
           ))}
         </ul>
         <BoxSubtitle />
-        <PersonalData />
+        <div className="personal-data">
+          <div className="name">
+            <p>Nome do comprador:</p>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              type="text"
+              placeholder="Digite seu nome..."
+            />
+          </div>
+          <div className="cpf">
+            <p>CPF do comprador:</p>
+            <input
+              value={cpf}
+              onChange={(e) => setCpf(e.target.value)}
+              type="text"
+              placeholder="Digite seu CPF..."
+            />
+          </div>
+        </div>
         <div className="box-reserve">
           <Link to="/sucesso">
-            <button className="reserve">Reservar assento(s)</button>
+            <button onClick={sendData} className="reserve">
+              Reservar assento(s)
+            </button>
           </Link>
         </div>
-        <div className="footer">
-          <div className="box-film-footer">
-            <img src={infoSeat.movie.posterURL} alt={infoSeat.movie.title} />
-          </div>
-          <div className="finish">
-            <p>{infoSeat.movie.title}</p>
-            <p>{`${infoSeat.day.weekday} - ${infoSeat.name}`}</p>
-          </div>
-        </div>
+        <Footer infoSeat={infoSeat} />
       </div>
     );
   }
@@ -73,16 +110,15 @@ function BoxSubtitle() {
   );
 }
 
-function PersonalData() {
+function Footer({ infoSeat }) {
   return (
-    <div className="personal-data">
-      <div className="name">
-        <p>Nome do comprador:</p>
-        <input type="text" placeholder="Digite seu nome..." />
+    <div className="footer">
+      <div className="box-film-footer">
+        <img src={infoSeat.movie.posterURL} alt={infoSeat.movie.title} />
       </div>
-      <div className="cpf">
-        <p>CPF do comprador:</p>
-        <input type="text" placeholder="Digite seu CPF..." />
+      <div className="finish">
+        <p>{infoSeat.movie.title}</p>
+        <p>{`${infoSeat.day.weekday} - ${infoSeat.name}`}</p>
       </div>
     </div>
   );

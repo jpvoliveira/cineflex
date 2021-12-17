@@ -45,6 +45,13 @@
   border: 1px solid #9eadba;
 }
 
+.footer p{
+  font-size: 22px;
+  line-height: 30px;
+
+  color: #293845;
+}
+
 .box-film-footer {
   display: flex;
   justify-content: center;

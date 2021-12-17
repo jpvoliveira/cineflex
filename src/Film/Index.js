@@ -12,7 +12,7 @@ export default function Film() {
       `https://mock-api.driven.com.br/api/v4/cineflex/movies/${idFilm}/showtimes`
     );
     promessa.then((resposta) => {
-      setInfoMovies(resposta.data.days);
+      setInfoMovies(resposta.data);
     });
   }, []);
   if (infoMovies === undefined) {
@@ -22,7 +22,7 @@ export default function Film() {
     return (
       <div className="film">
         <div className="title">Selecione o horário</div>
-        {infoMovies.map((infos) => {
+        {infoMovies.days.map((infos) => {
           return (
             <>
               <div className="day">{`${infos.weekday} - ${infos.date}`}</div>
@@ -38,19 +38,19 @@ export default function Film() {
             </>
           );
         })}
-        <Footer />
+        <Footer infoMovies={infoMovies}/>
       </div>
     );
   }
 }
 
-function Footer() {
+function Footer({infoMovies}) {
   return (
     <div className="footer">
       <div className="box-film-footer">
-        <img src="#" alt="Filme 1" />
+        <img src={infoMovies.posterURL} alt={infoMovies.title} />
       </div>
-      <p>Nome filme</p>
+      <p>{infoMovies.title}</p>
     </div>
   );
 }
