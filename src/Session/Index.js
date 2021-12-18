@@ -10,7 +10,6 @@ export default function Session() {
   const { idSession } = useParams();
   let finish = [{ ids: [], name: "", cpf: "" }];
   const [select, setSelect] = useState([]);
-
   const [teste, setTeste] = useState([])
 
   useEffect(() => {
@@ -22,17 +21,19 @@ export default function Session() {
       setInfoSeat(resposta.data);
     });
   }, []);
-  
+
   function reserveSeat(item) {
-    const newTeste = [...teste, item.id]
-    setTeste(newTeste)
-    const newArray = [...select, item.name];
-    setSelect(newArray);
-    
     if(item.isSelected === false){
-    item.isSelected = true
+      item.isSelected = true
     }else{
       item.isSelected = false
+      setSelect(select.filter((value)=> value!==item.name))
+    }
+    const newTeste = [...teste, <item className="id"> </item>]
+    setTeste(newTeste)
+    if (item.isSelected === true) {
+      const newArray = [...select, item.name];
+      setSelect(newArray);
     }
   }
 
@@ -46,13 +47,12 @@ export default function Session() {
   }
   
   function sendData() {
-    const newSelect = select.filter(function(ele , pos){
-      return select.indexOf(ele) == pos;})
-      console.group(newSelect)
-    finish.ids = newSelect;
+    console.log(select)
+    finish.ids = select;
     finish.name = name;
     finish.cpf = cpf;
     console.log(finish);
+    //const request = axios.post("https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many", finish)
   }
   
   if (infoSeat == '') {
