@@ -6,35 +6,56 @@ import "./style.css";
 export default function Session() {
   const [name, setName] = useState("");
   const [cpf, setCpf] = useState("");
-  const [infoSeat, setInfoSeat] = useState(undefined);
-  const [available, setAvailable] = useState(false);
+  const [infoSeat, setInfoSeat] = useState([]);
   const { idSession } = useParams();
   let finish = [{ ids: [], name: "", cpf: "" }];
   const [select, setSelect] = useState([]);
+
+  const [teste, setTeste] = useState([])
 
   useEffect(() => {
     const promessa = axios.get(
       `https://mock-api.driven.com.br/api/v4/cineflex/showtimes/${idSession}/seats`
     );
     promessa.then((resposta) => {
+      resposta.data.seats.map((item)=>item['isSelected'] = false)
       setInfoSeat(resposta.data);
     });
   }, []);
-
+  
   function reserveSeat(item) {
-    setAvailable(true);
-    const newArray = [...select, item];
+    const newTeste = [...teste, item.id]
+    setTeste(newTeste)
+    const newArray = [...select, item.name];
     setSelect(newArray);
+    
+    if(item.isSelected === false){
+    item.isSelected = true
+    }else{
+      item.isSelected = false
+    }
   }
 
+  function styleSeat(item){
+    
+    if (item.isSelected===false){
+      return "seat"
+    }else {
+      return "seat selected"
+    }
+  }
+  
   function sendData() {
-    finish.ids = select;
+    const newSelect = select.filter(function(ele , pos){
+      return select.indexOf(ele) == pos;})
+      console.group(newSelect)
+    finish.ids = newSelect;
     finish.name = name;
     finish.cpf = cpf;
     console.log(finish);
   }
-
-  if (infoSeat === undefined) {
+  
+  if (infoSeat == '') {
     return "Loading...";
   } else {
     return (
@@ -43,15 +64,8 @@ export default function Session() {
         <ul className="box-seat">
           {infoSeat.seats.map((item) => (
             <li
-              key={item.name}
-              onClick={() => reserveSeat(item.name)}
-              className={
-                item.isAvailable
-                  ? available
-                    ? "seat selected"
-                    : "seat"
-                  : "seat  unavailable"
-              }
+              onClick={() => reserveSeat(item)}
+              className={item.isAvailable? styleSeat(item) : "seat unavailable"}
             >
               {item.name}
             </li>

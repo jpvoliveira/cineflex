@@ -6,6 +6,18 @@
   padding-right: 24px;
 }
 
+
+.box-subtitle {
+  display: flex;
+  padding-left: 24px;
+  padding-right: 24px;
+  justify-content: space-around;
+}
+
+.border-remove {
+  margin-bottom: 5px;
+}
+
 .seat {
   display: flex;
   justify-content: center;
@@ -26,17 +38,6 @@
   line-height: 13px;
   letter-spacing: 0.04em;
   color: #000000;
-}
-
-.box-subtitle {
-  display: flex;
-  padding-left: 24px;
-  padding-right: 24px;
-  justify-content: space-around;
-}
-
-.border-remove {
-  margin-bottom: 5px;
 }
 
 .selected {
