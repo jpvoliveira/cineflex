@@ -5,6 +5,8 @@ import Film from "./Film/Index";
 import Session from "./Session/Index";
 import Sucess from "./Success/Index";
 import { useState } from "react/cjs/react.development";
+import './css/reset.css'
+import './css/style.css'
 
 export default function App() {
   const [dados, setDados] = useState({});
