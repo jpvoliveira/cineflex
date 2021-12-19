@@ -23,27 +23,30 @@ export default function Session({ sendFinish, sendUser }) {
     });
   }, []);
 
+  //Logica para seleção dos assentos
   function reserveSeat(item) {
     if (item.isAvailable === false) {
       alert("Esta assento não está disponível")
-    }
-    if (item.isSelected === false) {
-      item.isSelected = true;
-    } else {
-      item.isSelected = false;
-      
-      setSelect(select.filter((value) => value !== item.id));
-      setSelectSeat(selectSeat.filter((value) => value !== item.name));
-    }
+    }else{
+      if (item.isSelected === false) {
+        item.isSelected = true;
+      } else {
+        item.isSelected = false;
+        
+        setSelect(select.filter((value) => value !== item.id));
+        setSelectSeat(selectSeat.filter((value) => value !== item.name));
+      }
 
-    if (item.isSelected === true) {
-      const newArray = [...select, item.id];
-      setSelect(newArray);
-      const newSeat = [...selectSeat, item.name];
-      setSelectSeat(newSeat);
+      if (item.isSelected === true) {
+        const newArray = [...select, item.id];
+        setSelect(newArray);
+        const newSeat = [...selectSeat, item.name];
+        setSelectSeat(newSeat);
+      }
     }
   }
 
+  //CSS do assento caso tenha sido selecionado ou não
   function styleSeat(item) {
     if (item.isSelected === false) {
       return "seat";
@@ -52,6 +55,7 @@ export default function Session({ sendFinish, sendUser }) {
     }
   }
 
+  //Envia os dados para a API
   function sendData() {
     finish.ids = select;
     finish.name = name;

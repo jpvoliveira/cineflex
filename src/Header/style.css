@@ -16,4 +16,23 @@
   line-height: 40px;
 
   color: #e8833a;
+
+  /* padding-left: 100px; */
+}
+
+.header button{
+  margin-left: 50px;
+  width: 50px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  background-color: #e8833a;
+  border-radius: 3px;
+
+  font-size: 15px;
+  line-height: 21px;
+  color: #ffffff;
 }
