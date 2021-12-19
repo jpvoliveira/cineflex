@@ -3,59 +3,65 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./style.css";
 
-export default function Session() {
+export default function Session({ sendFinish, sendUser }) {
   const [name, setName] = useState("");
   const [cpf, setCpf] = useState("");
   const [infoSeat, setInfoSeat] = useState([]);
   const { idSession } = useParams();
-  let finish = [{ ids: [], name: "", cpf: "" }];
+  let finish = {};
   const [select, setSelect] = useState([]);
-  const [teste, setTeste] = useState([])
+  const [selectSeat, setSelectSeat] = useState([]);
 
   useEffect(() => {
     const promessa = axios.get(
       `https://mock-api.driven.com.br/api/v4/cineflex/showtimes/${idSession}/seats`
     );
     promessa.then((resposta) => {
-      resposta.data.seats.map((item)=>item['isSelected'] = false)
+      resposta.data.seats.map((item) => (item["isSelected"] = false));
       setInfoSeat(resposta.data);
+      sendFinish(resposta.data);
     });
   }, []);
 
   function reserveSeat(item) {
-    if(item.isSelected === false){
-      item.isSelected = true
-    }else{
-      item.isSelected = false
-      setSelect(select.filter((value)=> value!==item.name))
+    if (item.isSelected === false) {
+      item.isSelected = true;
+    } else {
+      item.isSelected = false;
+      setSelect(select.filter((value) => value !== item.id));
+      setSelectSeat(selectSeat.filter((value) => value !== item.name));
     }
-    const newTeste = [...teste, <item className="id"> </item>]
-    setTeste(newTeste)
+
     if (item.isSelected === true) {
-      const newArray = [...select, item.name];
+      const newArray = [...select, item.id];
       setSelect(newArray);
+      const newSeat = [...selectSeat, item.name];
+      setSelectSeat(newSeat);
     }
   }
 
-  function styleSeat(item){
-    
-    if (item.isSelected===false){
-      return "seat"
-    }else {
-      return "seat selected"
+  function styleSeat(item) {
+    if (item.isSelected === false) {
+      return "seat";
+    } else {
+      return "seat selected";
     }
   }
-  
+
   function sendData() {
-    console.log(select)
     finish.ids = select;
     finish.name = name;
     finish.cpf = cpf;
-    console.log(finish);
-    //const request = axios.post("https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many", finish)
+    const post = axios.post(
+      "https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many",
+      finish
+    );
+    post.then((sucesso) => console.log(sucesso));
+    post.catch((erro) => console.log(erro.response.data));
+    sendUser(finish, selectSeat);
   }
-  
-  if (infoSeat == '') {
+
+  if (infoSeat == "") {
     return "Loading...";
   } else {
     return (
@@ -65,7 +71,9 @@ export default function Session() {
           {infoSeat.seats.map((item) => (
             <li
               onClick={() => reserveSeat(item)}
-              className={item.isAvailable? styleSeat(item) : "seat unavailable"}
+              className={
+                item.isAvailable ? styleSeat(item) : "seat unavailable"
+              }
             >
               {item.name}
             </li>

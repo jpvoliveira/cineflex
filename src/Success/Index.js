@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./style.css";
 
-export default function Sucess() {
+export default function Sucess({ filmData, user, seat }) {
   return (
     <div className="sucess">
       <div className="title txt">
@@ -9,7 +9,7 @@ export default function Sucess() {
         <br />
         com sucesso!
       </div>
-      <Confirmation />
+      <Confirmation filmData={filmData} user={user} seat={seat} />
       <div className="box-reserve">
         <Link to="/">
           <button className="reserve margin-small">Voltar para Home</button>
@@ -19,22 +19,26 @@ export default function Sucess() {
   );
 }
 
-function Confirmation() {
+function Confirmation({ filmData, user, seat }) {
   return (
     <div className="confirmation">
       <div className="container">
         <span>Filme e sessão</span>
-        <p>Filme 1</p>
-        <p>Data - Hora</p>
+        <p>{filmData.movie.title}</p>
+        <p>
+          {filmData.day.date} - {filmData.name}
+        </p>
       </div>
       <div className="container">
         <span>Ingressos</span>
-        <p>Assento 01</p>
+        {seat.map((item) => (
+          <p>Assento {item}</p>
+        ))}
       </div>
       <div className="container">
         <span>Comprador</span>
-        <p>Nome: Fulano</p>
-        <p>CPF: 000.000.000-00</p>
+        <p>Nome: {user.name}</p>
+        <p>CPF: {user.cpf}</p>
       </div>
     </div>
   );
