@@ -24,10 +24,14 @@ export default function Session({ sendFinish, sendUser }) {
   }, []);
 
   function reserveSeat(item) {
+    if (item.isAvailable === false) {
+      alert("Esta assento não está disponível")
+    }
     if (item.isSelected === false) {
       item.isSelected = true;
     } else {
       item.isSelected = false;
+      
       setSelect(select.filter((value) => value !== item.id));
       setSelectSeat(selectSeat.filter((value) => value !== item.name));
     }
