@@ -7,17 +7,17 @@ import Sucess from "./Success/Index";
 import { useState } from "react/cjs/react.development";
 
 export default function App() {
-  const [dados, setDados] = useState({})
-  const [user, setUser] = useState ({})
-  const [seat, setSeat] = useState ([])
+  const [dados, setDados] = useState({});
+  const [user, setUser] = useState({});
+  const [seat, setSeat] = useState([]);
 
-  function sendFinish (item){
-    setDados(item)
+  function sendFinish(item) {
+    setDados(item);
   }
 
-  function sendUser (item, seat){
-    setUser(item)
-    setSeat(seat)
+  function sendUser(item, seat) {
+    setUser(item);
+    setSeat(seat);
   }
 
   return (
@@ -26,8 +26,14 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Initial />}></Route>
         <Route path="/filme/:idFilm" element={<Film />}></Route>
-        <Route path="/sessao/:idSession" element={<Session sendFinish={sendFinish} sendUser={sendUser}/>}></Route>
-        <Route path="/sucesso" element={<Sucess filmData={dados} user={user} seat={seat}/>}></Route>
+        <Route
+          path="/sessao/:idSession"
+          element={<Session sendFinish={sendFinish} sendUser={sendUser} />}
+        ></Route>
+        <Route
+          path="/sucesso"
+          element={<Sucess filmData={dados} user={user} seat={seat} />}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
