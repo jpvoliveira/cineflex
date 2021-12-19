@@ -52,10 +52,12 @@ export default function Session({ sendFinish, sendUser }) {
     finish.ids = select;
     finish.name = name;
     finish.cpf = cpf;
-    axios.post(
+    const post = axios.post(
       "https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many",
       finish
     );
+    post.then((sucesso) => console.log(sucesso));
+    post.catch((erro) => console.log(erro.response.data));
     sendUser(finish, selectSeat);
   }
 
