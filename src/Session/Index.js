@@ -6,7 +6,7 @@ import "./style.css";
 export default function Session({ sendFinish, sendUser }) {
   const [name, setName] = useState("");
   const [cpf, setCpf] = useState("");
-  const [infoSeat, setInfoSeat] = useState([]);
+  const [infoSeat, setInfoSeat] = useState(undefined);
   const { idSession } = useParams();
   let finish = {};
   const [select, setSelect] = useState([]);
@@ -61,7 +61,7 @@ export default function Session({ sendFinish, sendUser }) {
     sendUser(finish, selectSeat);
   }
 
-  if (infoSeat == "") {
+  if (infoSeat === undefined) {
     return "Loading...";
   } else {
     return (
