@@ -4,7 +4,7 @@ import Initial from "./Initial/Index";
 import Film from "./Film/Index";
 import Session from "./Session/Index";
 import Sucess from "./Success/Index";
-import { useState } from "react/cjs/react.development";
+import { useState } from "react";
 import './css/reset.css'
 import './css/style.css'
 
